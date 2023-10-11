@@ -47,7 +47,7 @@ def main():
                 plt.legend(title='Rating', loc='right', 
                         bbox_to_anchor=(1, 0, 0.15, 1),
                         labels=plab)
-                plt.show()
+                plt.savefig('data.svg')
             except Exception as e:
                 print(f"{type(e).__name__}: {e}")
             except BaseException as e:
