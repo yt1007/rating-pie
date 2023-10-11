@@ -16,42 +16,55 @@ def main():
     else:
         if data is not None:
             try:
-                data = data.set_index('Score')
-                pdat = np.array(data.Count)
-                plab = np.array(data.index)
-                pcol = [ "#ff6666", "#f86d4f", "#ec7638", "#dd8020",
-                        "#cb8a00", "#b59300", "#9d9a00", "#82a100",
-                        "#62a616", "#33aa33" ]
-                pcol = np.array(pcol)
-                pcap = 0
-                for lab, dat in zip(plab, pdat):
-                    if lab >= 8:
-                        pcap += dat;
-                pcap = pcap * 100 / sum(pdat)
-                pcap = f'{pcap:.1f}% rated an 8 or more'
-                plt.pie(pdat,
-                        wedgeprops=dict(width=0.6),
-                        startangle=90, colors=pcol)
-                plt.text(0, 0.05, sum(pdat),
-                        fontsize=36, weight='bold',
-                        horizontalalignment='center',
-                        verticalalignment='center')
-                plt.text(0, -0.2, "SAMPLES",
-                        fontsize=10,
-                        horizontalalignment='center',
-                        verticalalignment='center')
-                plt.text(0, -1.15, pcap,
-                        fontsize=10,
-                        horizontalalignment='center',
-                        verticalalignment='center')
-                plt.legend(title='Rating', loc='right', 
-                        bbox_to_anchor=(1, 0, 0.15, 1),
-                        labels=plab)
-                plt.savefig('data.svg')
+                draw_pie(data)
             except Exception as e:
                 print(f"{type(e).__name__}: {e}")
             except BaseException as e:
                 print(e)
+
+
+def draw_pie(data):
+    '''
+    Function takes a data frame containing scores and counts,
+    and draws a donut chart using Matplotlib.
+    '''
+    try:
+        data = data.set_index('Score')
+        pdat = np.array(data.Count)
+        plab = np.array(data.index)
+        pcol = [ "#ff6666", "#f86d4f", "#ec7638", "#dd8020",
+                "#cb8a00", "#b59300", "#9d9a00", "#82a100",
+                "#62a616", "#33aa33" ]
+        pcol = np.array(pcol)
+        pcap = 0
+        for lab, dat in zip(plab, pdat):
+            if lab >= 8:
+                pcap += dat;
+        pcap = pcap * 100 / sum(pdat)
+        pcap = f'{pcap:.1f}% rated an 8 or more'
+        plt.pie(pdat,
+                wedgeprops=dict(width=0.6),
+                startangle=90, colors=pcol)
+        plt.text(0, 0.05, sum(pdat),
+                fontsize=36, weight='bold',
+                horizontalalignment='center',
+                verticalalignment='center')
+        plt.text(0, -0.2, "SAMPLES",
+                fontsize=10,
+                horizontalalignment='center',
+                verticalalignment='center')
+        plt.text(0, -1.15, pcap,
+                fontsize=10,
+                horizontalalignment='center',
+                verticalalignment='center')
+        plt.legend(title='Rating', loc='right', 
+                bbox_to_anchor=(1, 0, 0.15, 1),
+                labels=plab)
+        plt.savefig('data.svg')
+    except Exception as e:
+        print(f"{type(e).__name__}: {e}")
+    except BaseException as e:
+        print(e)
 
 
 if __name__ == "__main__":
